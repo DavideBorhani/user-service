@@ -1,14 +1,18 @@
 package com.davideborhani.userservice.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.davideborhani.userservice.model.dto.UserDto;
+import com.davideborhani.userservice.model.dto.UserIdDto;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    @GetMapping
-    public String getUser(){
-        return "test user";
+    @GetMapping("/{userId}")
+    public UserDto getUser(@PathVariable("userId") String userId){
+        return new UserDto();
+    }
+    @PostMapping
+    public UserIdDto insertUser(@RequestBody UserDto userDto){
+        return new UserIdDto(userDto.getUserName()+userDto.getBirthDate());
     }
 }
