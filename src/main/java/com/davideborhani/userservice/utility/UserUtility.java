@@ -1,6 +1,9 @@
 package com.davideborhani.userservice.utility;
 
+import com.davideborhani.userservice.Exceptions;
+import com.davideborhani.userservice.exception.InvalidUserException;
 import com.davideborhani.userservice.model.dto.UserDto;
+import com.davideborhani.userservice.model.entity.User;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,30 +15,32 @@ public class UserUtility {
     private UserUtility() {
     }
 
-    public static void userCorrectnessCheck(UserDto userDto) {
+    public static User userCorrectnessCheck(UserDto userDto) {
+        Date dateToCheck;
+
         if (userDto == null) {
-            //lancia eccezione
+            throw new InvalidUserException(Exceptions.USER_EMPTY.getMessage());
         }
         if (userDto.getUserName() == null || userDto.getUserName().isEmpty()) {
-            //lancia eccezione
+            throw new InvalidUserException(Exceptions.USERNAME_EMPTY.getMessage());
         }
-        if (userDto.getBirthDate() == null) {
-            //lancia eccezione
+        if (userDto.getBirthDate() == null || userDto.getBirthDate().isEmpty()) {
+            throw new InvalidUserException(Exceptions.BIRTH_DATE_EMPTY.getMessage());
         } else {
 
             try {
-                Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(userDto.getBirthDate());
+                dateToCheck = new SimpleDateFormat("dd/MM/yyyy").parse(userDto.getBirthDate());
             } catch (ParseException e) {
-                //lancia eccezione
-                e.printStackTrace();
+                throw new InvalidUserException(Exceptions.BIRTH_DATE_INVALID.getMessage());
             }
         }
         if (userDto.getCountryOfResidence() == null || userDto.getCountryOfResidence().isEmpty()) {
-            //lancia eccezione
+            throw new InvalidUserException(Exceptions.COUNTRY_OF_RESIDENCE_EMPTY.getMessage());
         } else {
             if (!userDto.getCountryOfResidence().equalsIgnoreCase("france")) {
-                //lancia eccezione
+                throw new InvalidUserException(Exceptions.COUNTRY_OF_RESIDENCE_NOT_FR.getMessage());
             }
+            userDto.setCountryOfResidence(userDto.getCountryOfResidence().toLowerCase());
         }
         /*
             \d{10} matches 1234567890
@@ -46,15 +51,26 @@ public class UserUtility {
         if (userDto.getPhoneNumber() != null &&
                 !userDto.getPhoneNumber().isEmpty()) {
             if (!Pattern.compile(pattern).matcher(userDto.getPhoneNumber()).matches()) {
-                //lancia eccezione
+                throw new InvalidUserException(Exceptions.PHONE_NUMBER_INVALID.getMessage());
             }
+            String phoneNumber = userDto.getPhoneNumber().replaceAll("[()-]", "");
+            userDto.setPhoneNumber(phoneNumber);
         }
-        if(userDto.getGender()!=null && !userDto.getGender().isEmpty()){
-            if(!userDto.getGender().equalsIgnoreCase("male") ||
+        if (userDto.getGender() != null && !userDto.getGender().isEmpty()) {
+            if (!userDto.getGender().equalsIgnoreCase("male") &&
                     !userDto.getGender().equalsIgnoreCase("female")
-            ){
-                //lancia eccezione
+            ) {
+                throw new InvalidUserException(Exceptions.GENDER_INVALID.getMessage());
             }
+            userDto.setGender(userDto.getGender().toLowerCase());
+
         }
+        User user = new User();
+        user.setUserName(userDto.getUserName());
+        user.setBirthDate(dateToCheck);
+        user.setCountryOfResidence(userDto.getCountryOfResidence());
+        user.setPhoneNumber(userDto.getPhoneNumber());
+        user.setGender(userDto.getGender());
+        return user;
     }
 }
