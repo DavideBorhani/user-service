@@ -21,7 +21,7 @@ public class User {
     @Id
     @GeneratedValue
     private Long id;
-    private String userName;
+    private String username;
     private Date birthDate;//Date on entity
     private String countryOfResidence;//only France allowed
     private String phoneNumber;//optional

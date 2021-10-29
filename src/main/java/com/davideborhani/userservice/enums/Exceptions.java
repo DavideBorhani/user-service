@@ -1,4 +1,4 @@
-package com.davideborhani.userservice;
+package com.davideborhani.userservice.enums;
 
 public enum Exceptions {
 

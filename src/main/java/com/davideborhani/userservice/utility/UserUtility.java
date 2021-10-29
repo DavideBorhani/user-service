@@ -1,10 +1,10 @@
 package com.davideborhani.userservice.utility;
 
-import com.davideborhani.userservice.Exceptions;
 import com.davideborhani.userservice.exception.InvalidUserException;
 import com.davideborhani.userservice.model.dto.UserDto;
 import com.davideborhani.userservice.model.entity.User;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -66,11 +66,23 @@ public class UserUtility {
 
         }
         User user = new User();
-        user.setUserName(userDto.getUserName());
+        user.setUsername(userDto.getUserName());
         user.setBirthDate(dateToCheck);
         user.setCountryOfResidence(userDto.getCountryOfResidence());
         user.setPhoneNumber(userDto.getPhoneNumber());
         user.setGender(userDto.getGender());
         return user;
+    }
+
+    public static UserDto fromUserEntitytoUserDto(User userEntity){
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String birthDate = dateFormat.format(userEntity.getBirthDate());
+        return UserDto.builder()
+                .userName(userEntity.getUsername())
+                .birthDate(birthDate)
+                .countryOfResidence(userEntity.getCountryOfResidence())
+                .phoneNumber(userEntity.getPhoneNumber())
+                .gender(userEntity.getGender())
+                .build();
     }
 }
