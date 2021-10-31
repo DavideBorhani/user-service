@@ -1,7 +1,7 @@
 package com.davideborhani.userservice.exception;
 
-import com.davideborhani.userservice.exception.InvalidUserException;
-import com.davideborhani.userservice.logger.LoggingAdvice;
+import com.davideborhani.userservice.exception.invaliduser.InvalidUserException;
+import com.davideborhani.userservice.exception.notfounduser.UserNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -22,15 +22,15 @@ public class RestResponseEntityExceptionHandler
             = { InvalidUserException.class })
     protected ResponseEntity<Object> handleInvalidUserConflict(
             RuntimeException ex, WebRequest request) {
-        log.info(ex.getMessage() + " - HttpStatus : " + HttpStatus.BAD_REQUEST.toString());
+        log.info("Exception " + ex.getMessage() + " - HttpStatus : " + HttpStatus.BAD_REQUEST);
         return handleExceptionInternal(ex, ex.getMessage(),
                 new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
     @ExceptionHandler(value
-            = { NotFoundUserException.class })
+            = { UserNotFoundException.class })
     protected ResponseEntity<Object> handleNotFoundUserConflict(
             RuntimeException ex, WebRequest request) {
-        log.info(ex.getMessage() + " - HttpStatus : " + HttpStatus.NOT_FOUND.toString());
+        log.info("Exception " + ex.getMessage() + " - HttpStatus : " + HttpStatus.NOT_FOUND);
         return handleExceptionInternal(ex, ex.getMessage(),
                 new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }

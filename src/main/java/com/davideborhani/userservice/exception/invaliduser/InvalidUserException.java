@@ -1,6 +1,5 @@
-package com.davideborhani.userservice.exception;
+package com.davideborhani.userservice.exception.invaliduser;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
