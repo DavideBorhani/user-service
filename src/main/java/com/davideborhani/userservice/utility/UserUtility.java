@@ -1,5 +1,6 @@
 package com.davideborhani.userservice.utility;
 
+import com.davideborhani.userservice.enums.Exceptions;
 import com.davideborhani.userservice.exception.InvalidUserException;
 import com.davideborhani.userservice.model.dto.UserDto;
 import com.davideborhani.userservice.model.entity.User;
@@ -18,9 +19,6 @@ public class UserUtility {
     public static User userCorrectnessCheck(UserDto userDto) {
         Date dateToCheck;
 
-        if (userDto == null) {
-            throw new InvalidUserException(Exceptions.USER_EMPTY.getMessage());
-        }
         if (userDto.getUserName() == null || userDto.getUserName().isEmpty()) {
             throw new InvalidUserException(Exceptions.USERNAME_EMPTY.getMessage());
         }

@@ -14,10 +14,18 @@ public class RestResponseEntityExceptionHandler
         extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value
-            = { InvalidUserException.class, IllegalStateException.class })
-    protected ResponseEntity<Object> handleConflict(
+            = { InvalidUserException.class })
+    protected ResponseEntity<Object> handleInvalidUserConflict(
             RuntimeException ex, WebRequest request) {
         return handleExceptionInternal(ex, ex.getMessage(),
                 new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
+    @ExceptionHandler(value
+            = { NotFoundUserException.class })
+    protected ResponseEntity<Object> handleNotFoundUserConflict(
+            RuntimeException ex, WebRequest request) {
+        return handleExceptionInternal(ex, ex.getMessage(),
+                new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    }
+
 }

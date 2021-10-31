@@ -2,6 +2,7 @@ package com.davideborhani.userservice.service;
 
 import com.davideborhani.userservice.enums.Exceptions;
 import com.davideborhani.userservice.exception.InvalidUserException;
+import com.davideborhani.userservice.exception.NotFoundUserException;
 import com.davideborhani.userservice.model.dto.UserDto;
 import com.davideborhani.userservice.model.dto.UserIdDto;
 import com.davideborhani.userservice.model.entity.User;
@@ -26,7 +27,8 @@ public class UserService{
     }
 
     public UserDto getUser(String userId){
-        User user = userRepository.findById(Long.valueOf(userId)).orElse(null);
+        User user = userRepository.findById(Long.valueOf(userId))
+                .orElseThrow(() -> new NotFoundUserException(Exceptions.USER_NOT_FOUND.getMessage()));
         return UserUtility.fromUserEntitytoUserDto(user);
     }
 
