@@ -96,7 +96,7 @@ public class UserUtility {
     }
 
     private static void checkUserName(UserDto userDto) {
-        if (userDto.getUserName() == null || userDto.getUserName().isEmpty()) {
+        if (userDto.getUsername() == null || userDto.getUsername().isEmpty()) {
             throw new UsernameEmptyException(Exceptions.USERNAME_EMPTY.getMessage());
         }
     }
@@ -105,7 +105,7 @@ public class UserUtility {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String birthDate = dateFormat.format(userEntity.getBirthDate());
         return UserDto.builder()
-                .userName(userEntity.getUsername())
+                .username(userEntity.getUsername())
                 .birthDate(birthDate)
                 .countryOfResidence(userEntity.getCountryOfResidence())
                 .phoneNumber(userEntity.getPhoneNumber())
@@ -115,11 +115,12 @@ public class UserUtility {
 
     private static User fromUserDtoToUserEntity(UserDto userDto, Date dateToCheck) {
         User user = new User();
-        user.setUsername(userDto.getUserName());
+        user.setUsername(userDto.getUsername());
         user.setBirthDate(dateToCheck);
         user.setCountryOfResidence(userDto.getCountryOfResidence());
         user.setPhoneNumber(userDto.getPhoneNumber());
         user.setGender(userDto.getGender());
         return user;
     }
+
 }

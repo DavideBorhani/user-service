@@ -1,7 +1,6 @@
 package com.davideborhani.userservice.service;
 
 import com.davideborhani.userservice.enums.Exceptions;
-import com.davideborhani.userservice.exception.invaliduser.InvalidUserException;
 import com.davideborhani.userservice.exception.invaliduser.UsernameAlreadyRegisteredException;
 import com.davideborhani.userservice.exception.notfounduser.UserNotFoundException;
 import com.davideborhani.userservice.model.dto.UserDto;
@@ -33,4 +32,18 @@ public class UserService{
         return UserUtility.fromUserEntitytoUserDto(user);
     }
 
+    public UserDto updateUser(String userId, UserDto userDto) {
+        User user = UserUtility.userCorrectnessCheck(userDto);
+        User userToUpdate = userRepository.findByIdAndUsername(Long.valueOf(userId), user.getUsername())
+                .orElseThrow(() -> new UserNotFoundException(Exceptions.USER_NOT_FOUND.getMessage()));
+        user.setId(userToUpdate.getId());
+        user = userRepository.save(user);
+        return UserUtility.fromUserEntitytoUserDto(user);
+    }
+
+    public void deleteUser(String userId) {
+        User user = userRepository.findById(Long.valueOf(userId))
+                .orElseThrow(() -> new UserNotFoundException(Exceptions.USER_NOT_FOUND.getMessage()));
+        userRepository.delete(user);
+    }
 }

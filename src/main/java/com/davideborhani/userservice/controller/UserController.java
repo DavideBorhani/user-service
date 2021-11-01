@@ -2,7 +2,6 @@ package com.davideborhani.userservice.controller;
 
 import com.davideborhani.userservice.model.dto.UserDto;
 import com.davideborhani.userservice.model.dto.UserIdDto;
-import com.davideborhani.userservice.model.entity.User;
 import com.davideborhani.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +22,19 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-            public UserIdDto insertUser(@RequestBody UserDto userDto) {
+    public UserIdDto insertUser(@RequestBody UserDto userDto) {
         return userService.insertUser(userDto);
+    }
+
+    @PutMapping("/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public UserDto updateUser(@PathVariable("userId") String userId, @RequestBody UserDto userDto){
+        return userService.updateUser(userId, userDto);
+    }
+
+    @DeleteMapping("/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteUser(@PathVariable("userId") String userId) {
+        userService.deleteUser(userId);
     }
 }

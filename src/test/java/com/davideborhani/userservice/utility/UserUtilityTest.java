@@ -26,9 +26,9 @@ class UserUtilityTest {
         //testing -> private static void checkUserName(UserDto userDto)
         UserDto userDto = UserDto.builder().build();
         assertThrows(UsernameEmptyException.class, () -> UserUtility.userCorrectnessCheck(userDto));
-        userDto.setUserName("");
+        userDto.setUsername("");
         assertThrows(UsernameEmptyException.class, () -> UserUtility.userCorrectnessCheck(userDto));
-        userDto.setUserName(validUsername);
+        userDto.setUsername(validUsername);
         //testing -> private static Date checkBirthDate(UserDto userDto)
         assertThrows(BirthDateEmptyException.class, () -> UserUtility.userCorrectnessCheck(userDto));
         userDto.setBirthDate("31-12-2121");
@@ -53,7 +53,7 @@ class UserUtilityTest {
         Date expectedDate;
         expectedDate = new SimpleDateFormat(pattern).parse(userDto.getBirthDate());
         User expected = new User();
-        expected.setUsername(userDto.getUserName());
+        expected.setUsername(userDto.getUsername());
         expected.setBirthDate(expectedDate);
         expected.setCountryOfResidence(userDto.getCountryOfResidence());
         expected.setPhoneNumber(userDto.getPhoneNumber());
@@ -76,7 +76,7 @@ class UserUtilityTest {
                 .build();
 
         UserDto expected = UserDto.builder()
-                .userName(userEntity.getUsername())
+                .username(userEntity.getUsername())
                 .birthDate(validBirthDate)
                 .countryOfResidence(userEntity.getCountryOfResidence())
                 .phoneNumber(userEntity.getPhoneNumber())

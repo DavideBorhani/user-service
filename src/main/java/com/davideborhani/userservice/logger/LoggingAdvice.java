@@ -16,7 +16,7 @@ public class LoggingAdvice {
 
     Logger log = LoggerFactory.getLogger(LoggingAdvice.class);
 
-    @Pointcut(value="execution(* com.davideborhani.userservice.*.*.*(..) ) && !execution(* com.davideborhani.userservice.exception.RestResponseEntityExceptionHandler.*(..) )")
+    @Pointcut(value="execution(* com.davideborhani.userservice.controller.*.*(..) )")
     public void pointcut(){
     }
 
