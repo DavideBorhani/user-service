@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ApiModel(description = "Details about the User")
+@ApiModel(description = "Request: details about the User(no id field)")
 public class UserDtoRequest {
 
     @ApiModelProperty(notes = "The username of the User")
