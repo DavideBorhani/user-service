@@ -1,7 +1,8 @@
 package com.davideborhani.userservice.utility;
 
 import com.davideborhani.userservice.exception.invaliduser.*;
-import com.davideborhani.userservice.model.dto.UserDto;
+import com.davideborhani.userservice.model.dto.UserDtoRequest;
+import com.davideborhani.userservice.model.dto.UserDtoResponse;
 import com.davideborhani.userservice.model.entity.User;
 import org.junit.jupiter.api.Test;
 
@@ -23,42 +24,42 @@ class UserUtilityTest {
 
     @Test
     void userCorrectnessCheck() throws ParseException {
-        //testing -> private static void checkUserName(UserDto userDto)
-        UserDto userDto = UserDto.builder().build();
-        assertThrows(UsernameEmptyException.class, () -> UserUtility.userCorrectnessCheck(userDto));
-        userDto.setUsername("");
-        assertThrows(UsernameEmptyException.class, () -> UserUtility.userCorrectnessCheck(userDto));
-        userDto.setUsername(validUsername);
-        //testing -> private static Date checkBirthDate(UserDto userDto)
-        assertThrows(BirthDateEmptyException.class, () -> UserUtility.userCorrectnessCheck(userDto));
-        userDto.setBirthDate("31-12-2121");
-        assertThrows(BirthDateInvalidException.class, () -> UserUtility.userCorrectnessCheck(userDto));
-        userDto.setBirthDate("31/12/2121");
-        assertThrows(BirthDateNotAdultException.class, () -> UserUtility.userCorrectnessCheck(userDto));
-        userDto.setBirthDate(validBirthDate);
-        //testing -> private static void checkCountryOfResidence(UserDto userDto)
-        assertThrows(CountryOfResidenceEmptyException.class, () -> UserUtility.userCorrectnessCheck(userDto));
-        userDto.setCountryOfResidence("fra");
-        assertThrows(CountryOfResidenceNotFrException.class, () -> UserUtility.userCorrectnessCheck(userDto));
-        userDto.setCountryOfResidence(validCountryOfResidence);
-        //testing -> private static void checkPhoneNumber(UserDto userDto)
-        userDto.setPhoneNumber("123456789");
-        assertThrows(PhoneNumberInvalidException.class, () -> UserUtility.userCorrectnessCheck(userDto));
-        userDto.setPhoneNumber(validPhoneNumber);
-        //testing -> private static void checkGender(UserDto userDto)
-        userDto.setGender("zzz");
-        assertThrows(GenderInvalidException.class, () -> UserUtility.userCorrectnessCheck(userDto));
-        userDto.setGender(validGender);
+        //testing -> private static void checkUserName(UserDtoRequest userDtoRequest)
+        UserDtoRequest userDtoRequest = UserDtoRequest.builder().build();
+        assertThrows(UsernameEmptyException.class, () -> UserUtility.userCorrectnessCheck(userDtoRequest));
+        userDtoRequest.setUsername("");
+        assertThrows(UsernameEmptyException.class, () -> UserUtility.userCorrectnessCheck(userDtoRequest));
+        userDtoRequest.setUsername(validUsername);
+        //testing -> private static Date checkBirthDate(UserDtoRequest userDtoRequest)
+        assertThrows(BirthDateEmptyException.class, () -> UserUtility.userCorrectnessCheck(userDtoRequest));
+        userDtoRequest.setBirthDate("31-12-2121");
+        assertThrows(BirthDateInvalidException.class, () -> UserUtility.userCorrectnessCheck(userDtoRequest));
+        userDtoRequest.setBirthDate("31/12/2121");
+        assertThrows(BirthDateNotAdultException.class, () -> UserUtility.userCorrectnessCheck(userDtoRequest));
+        userDtoRequest.setBirthDate(validBirthDate);
+        //testing -> private static void checkCountryOfResidence(UserDtoRequest userDtoRequest)
+        assertThrows(CountryOfResidenceEmptyException.class, () -> UserUtility.userCorrectnessCheck(userDtoRequest));
+        userDtoRequest.setCountryOfResidence("fra");
+        assertThrows(CountryOfResidenceNotFrException.class, () -> UserUtility.userCorrectnessCheck(userDtoRequest));
+        userDtoRequest.setCountryOfResidence(validCountryOfResidence);
+        //testing -> private static void checkPhoneNumber(UserDtoRequest userDtoRequest)
+        userDtoRequest.setPhoneNumber("123456789");
+        assertThrows(PhoneNumberInvalidException.class, () -> UserUtility.userCorrectnessCheck(userDtoRequest));
+        userDtoRequest.setPhoneNumber(validPhoneNumber);
+        //testing -> private static void checkGender(UserDtoRequest userDtoRequest)
+        userDtoRequest.setGender("zzz");
+        assertThrows(GenderInvalidException.class, () -> UserUtility.userCorrectnessCheck(userDtoRequest));
+        userDtoRequest.setGender(validGender);
         //testing -> the returned object User
         Date expectedDate;
-        expectedDate = new SimpleDateFormat(pattern).parse(userDto.getBirthDate());
+        expectedDate = new SimpleDateFormat(pattern).parse(userDtoRequest.getBirthDate());
         User expected = new User();
-        expected.setUsername(userDto.getUsername());
+        expected.setUsername(userDtoRequest.getUsername());
         expected.setBirthDate(expectedDate);
-        expected.setCountryOfResidence(userDto.getCountryOfResidence());
-        expected.setPhoneNumber(userDto.getPhoneNumber());
-        expected.setGender(userDto.getGender().toLowerCase());
-        assertEquals(expected, UserUtility.userCorrectnessCheck(userDto));
+        expected.setCountryOfResidence(userDtoRequest.getCountryOfResidence());
+        expected.setPhoneNumber(userDtoRequest.getPhoneNumber());
+        expected.setGender(userDtoRequest.getGender().toLowerCase());
+        assertEquals(expected, UserUtility.userCorrectnessCheck(userDtoRequest));
     }
 
     @Test
@@ -75,7 +76,7 @@ class UserUtilityTest {
                 .gender(validGender.toLowerCase())
                 .build();
 
-        UserDto expected = UserDto.builder()
+        UserDtoResponse expected = UserDtoResponse.builder()
                 .username(userEntity.getUsername())
                 .birthDate(validBirthDate)
                 .countryOfResidence(userEntity.getCountryOfResidence())
@@ -83,6 +84,6 @@ class UserUtilityTest {
                 .gender(userEntity.getGender())
                 .build();
 
-        assertEquals(expected, UserUtility.fromUserEntitytoUserDto(userEntity));
+        assertEquals(expected, UserUtility.fromUserEntitytoUserDtoResponse(userEntity));
     }
 }
