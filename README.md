@@ -148,8 +148,10 @@ description: "OK"
 #### to see and try the endpoints with all the information, ready to use, with a user-friendly interface go to the following link(after running the application):
 #### http://localhost:8080/swagger-ui.html
 #### you will see all the endpoint with request and response documented, you will also be able to try sending request to the application without using postman.
-#### If you prefer use postman you will find a postman collection in the root folder of the project, just import it in your postman and you will be ready to start sending request to the application.
+## If you prefer use postman you will find a postman collection in the root folder of the project, just import it in your postman and you will be ready to start sending requests to the application.
+## Please execute the requests following the numerical order indicated on the postman requests
 
+# TEST: UserUtility is 100 percent unit tested
 
 # How to download and install the project
 #### Download the zip or clone the Git repository.
